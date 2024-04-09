@@ -8,7 +8,7 @@ SightTraining  is a game for children's amblyopia training
 
 setup(
     name="SightTraining",
-    version="0.1.23",
+    version="0.1.24",
     author="jett.wang",
     author_email="jamiesun.net@gmail.com",
     description="SightTraining  is a game for children's amblyopia training",

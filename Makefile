@@ -19,6 +19,7 @@ build: clean
 # 清理构建产物
 .PHONY: clean
 clean:
+	find . -name .DS_Store -print0 | xargs -0 git rm -f --ignore-unmatch
 	$(CLEAN_CMD)
 
 # 安装包

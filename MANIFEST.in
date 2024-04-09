@@ -1,2 +1,4 @@
+
+global-exclude .DS_Store
 include Readme.md
 recursive-include spacedefense/assets *
