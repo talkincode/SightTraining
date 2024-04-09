@@ -1,0 +1,2 @@
+web/sighttraining.apk filter=lfs diff=lfs merge=lfs  -text
+
