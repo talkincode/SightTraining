@@ -3,7 +3,7 @@ from .scene_main import GameMainScene
 from .scenes import GameEndScene
 from .scenes import GamePreScene
 from .config import configmap
-from .common import get_assets, SceneManager, res_manager
+from .common import SceneManager, res_manager
 from .actors import (
     DISPLAY_WIDTH,
     DISPLAY_HEIGHT,
