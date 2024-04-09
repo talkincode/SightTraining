@@ -5,7 +5,6 @@ from .actors import Particle
 from .config import configmap
 
 
-
 class GamePreScene(Scene):
     def __init__(self, manager):
         super().__init__(manager)

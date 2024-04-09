@@ -9,6 +9,8 @@ def get_assets(subfile):
 def get_display_size():
     return (configmap["display_width"], configmap["display_height"])
 
+DISPLAY_WIDTH, DISPLAY_HEIGHT = get_display_size()
+
 class Colors:
     black = (0, 0, 0)
     white = (255, 255, 255)

@@ -4,28 +4,28 @@ import random
 from typing import List
 import pygame
 import math
-from .common import res_manager, Colors, get_display_size
+from .common import res_manager, Colors, DISPLAY_WIDTH, DISPLAY_HEIGHT
 from .config import configmap
 import os
-
-DISPLAY_WIDTH, DISPLAY_HEIGHT = get_display_size()
 
 
 class Background(pygame.sprite.Sprite):
     def __init__(self, location, config_data=None):
         pygame.sprite.Sprite.__init__(self)
         self.config = config_data
-        self.image_sequence_group  = itertools.cycle(self.config.get("image_sequence_group"))
+        self.image_sequence_group = itertools.cycle(
+            self.config.get("image_sequence_group")
+        )
         self.sequence_loop_delay = 10000
         self.frame_rate = 300  # 每帧间隔毫秒数
         self.reset()
-    
+
     def reset(self):
         self.image_sequence = []
         self.rect_sequence = []
         self.next_update_time = pygame.time.get_ticks() + self.sequence_loop_delay
         self.image_index = 0
-        
+
         _sequence = next(self.image_sequence_group, None)
         if _sequence:
             for img in res_manager.load_image_sequence(_sequence):
@@ -63,7 +63,6 @@ class Background(pygame.sprite.Sprite):
             )
 
         self.last_update = pygame.time.get_ticks()
-        
 
     def update(self):
         now = pygame.time.get_ticks()
@@ -82,7 +81,7 @@ class Background(pygame.sprite.Sprite):
                 _rect.y += 5  # Move the background down
                 if _rect.y >= _rect.height:
                     _rect.y = 0
-                
+
         else:
             self.rect.y += 5  # Move the background down
             if self.rect.y >= self.rect.height:
@@ -121,7 +120,6 @@ class ScaleBackground(pygame.sprite.Sprite):
         new_height = int(self.base_image.get_height() * self.current_scale)
         self.image = pygame.transform.scale(self.base_image, (new_width, new_height))
         self.rect = self.image.get_rect(center=(DISPLAY_WIDTH / 2, DISPLAY_HEIGHT / 2))
-
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -214,9 +212,10 @@ class TraceBullet(pygame.sprite.Sprite):
         )
 
         self.rect = self.image.get_rect(center=(x, y))
+
     def _track_target(self, target_groups: List[pygame.sprite.Group]):
         """从多个精灵组中选择目标进行跟踪
-        
+
         Args:
             target_groups: 精灵组的列表。
         """
@@ -224,15 +223,15 @@ class TraceBullet(pygame.sprite.Sprite):
             # 如果当前组不为空，则从该组中选择目标
             if group.sprites():
                 targets = group.sprites()  # 获取当前组中的所有精灵
-                
+
                 # 定义一个函数来计算每个目标的权重
                 def target_weight(target):
                     if isinstance(target, SuperBullet):
                         return -100000
-                    
+
                     distance = math.hypot(
                         target.rect.centerx - self.rect.centerx,
-                        target.rect.centery - self.rect.centery
+                        target.rect.centery - self.rect.centery,
                     )
                     life_value_weight = 1 / (target.life_value + 1)  # 避免除以0
 
@@ -251,7 +250,7 @@ class TraceBullet(pygame.sprite.Sprite):
         # 如果所有组都为空，则没有目标可以选择
         return None
 
-    def update(self, targets: List[pygame.sprite.Group]=None):
+    def update(self, targets: List[pygame.sprite.Group] = None):
         """更新炮弹位置，并生成尾部粒子效果"""
         # 生成粒子效果
         for _ in range(1):  # 生成两个粒子
@@ -415,9 +414,10 @@ class SuperBullet(pygame.sprite.Sprite):
         self.attack()
 
 
-
 class UfoSuperBullet(pygame.sprite.Sprite):
-    def __init__(self, x, y, target: pygame.sprite.Sprite, particle_group: None, config_data=None):
+    def __init__(
+        self, x, y, target: pygame.sprite.Sprite, particle_group: None, config_data=None
+    ):
         super().__init__()
         self.config = config_data
         self.particle_group = particle_group
@@ -455,12 +455,21 @@ class UfoSuperBullet(pygame.sprite.Sprite):
         self.rect.y += self.speed * math.sin(angle)
 
         # Rotation for visual effect (since it's a circular bullet, rotation doesn't affect its direction)
-        self.rotation_angle = (self.rotation_angle + self.speed * 15) % 360  # Add 5 degrees each update
+        self.rotation_angle = (
+            self.rotation_angle + self.speed * 15
+        ) % 360  # Add 5 degrees each update
         self.image = pygame.transform.rotate(self.original_image, self.rotation_angle)
-        self.rect = self.image.get_rect(center=self.rect.center)  # Update rect to keep center position unchanged
+        self.rect = self.image.get_rect(
+            center=self.rect.center
+        )  # Update rect to keep center position unchanged
 
         # Boundary check
-        if (self.rect.top < 0 or self.rect.bottom > DISPLAY_HEIGHT or self.rect.left < 0 or self.rect.right > DISPLAY_WIDTH):
+        if (
+            self.rect.top < 0
+            or self.rect.bottom > DISPLAY_HEIGHT
+            or self.rect.left < 0
+            or self.rect.right > DISPLAY_WIDTH
+        ):
             self.kill()
 
     def hit(self, damage):
@@ -529,7 +538,8 @@ class ShockParticle(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(
                 center=(int(self.float_x), int(self.float_y))
             )
-    
+
+
 class ProgressRect(pygame.sprite.Sprite):
     def __init__(self, width, height, x, y):
         super().__init__()
@@ -543,20 +553,30 @@ class ProgressRect(pygame.sprite.Sprite):
     def update(self, current_points, total_points):
         self.current_points = current_points
         self.total_points = total_points
-        
+
         # Clear the previous drawing
         self.image.fill(Colors.black)
 
         # 绘制背景长方形（灰色）
-        pygame.draw.rect(self.image, Colors.blue, (0, 0, self.rect.width, self.rect.height))
+        pygame.draw.rect(
+            self.image, Colors.blue, (0, 0, self.rect.width, self.rect.height)
+        )
 
         # 计算当前进度并绘制前景长方形（橘色）
-        percentage = self.current_points / self.total_points if self.total_points > 0 else 0
+        percentage = (
+            self.current_points / self.total_points if self.total_points > 0 else 0
+        )
         foreground_width = int(self.rect.width * percentage)
-        pygame.draw.rect(self.image, Colors.orange, (0, 0, foreground_width, self.rect.height))
+        pygame.draw.rect(
+            self.image, Colors.orange, (0, 0, foreground_width, self.rect.height)
+        )
 
         # 在长方形上显示整数百分比
         font = pygame.font.Font(None, 24)
-        text_surf = font.render(f"upgrade: {int(percentage * 100)}%", True, Colors.white)
-        text_rect = text_surf.get_rect(center=(self.rect.width // 2, self.rect.height // 2))
+        text_surf = font.render(
+            f"upgrade: {int(percentage * 100)}%", True, Colors.white
+        )
+        text_rect = text_surf.get_rect(
+            center=(self.rect.width // 2, self.rect.height // 2)
+        )
         self.image.blit(text_surf, text_rect)

@@ -4,11 +4,8 @@ from typing import List
 import pygame
 
 from .actors import Bullet, SuperBullet, TraceBullet, UfoSuperBullet
-from .common import res_manager, Colors
+from .common import res_manager, Colors, DISPLAY_WIDTH, DISPLAY_HEIGHT
 from .config import configmap
-
-DISPLAY_WIDTH = configmap["display_width"]
-DISPLAY_HEIGHT = configmap["display_height"]
 
 
 class FlightUnit(pygame.sprite.Sprite):
@@ -84,15 +81,15 @@ class FlightUnit(pygame.sprite.Sprite):
     def trace_fire(
         self,
         src_group,
-        target_groups: List[pygame.sprite.Group]=None,
-        particle_group: pygame.sprite.Group=None,
+        target_groups: List[pygame.sprite.Group] = None,
+        particle_group: pygame.sprite.Group = None,
     ):
         if not target_groups:
             return
-        
+
         if isinstance(target_groups, pygame.sprite.Group):
             target_groups = [target_groups]
-            
+
         if target_groups and particle_group and self.trace_fire_delay == 0:
             src_group.add(
                 TraceBullet(
@@ -115,7 +112,7 @@ class FlightUnit(pygame.sprite.Sprite):
 
     def super_fire(self, src_group, target, particle_group):
         if self.type != "ufo_master" and "super_bullet" not in self.config:
-            return 
+            return
         # self.recharge_delay = 0
         if self.super_fire_delay == 0:
             src_group.add(
@@ -144,10 +141,10 @@ class FlightUnit(pygame.sprite.Sprite):
     ):
         if not target_groups:
             return
-        
+
         if isinstance(target_groups, pygame.sprite.Group):
             target_groups = [target_groups]
-            
+
         if target_groups and particle_group and self.fire_interceptor_delay == 0:
             group.add(
                 TraceBullet(
@@ -167,7 +164,6 @@ class FlightUnit(pygame.sprite.Sprite):
             sound = res_manager.load_sound(self.config["fire_sound"])
             sound.set_volume(self.config["fire_sound_volume"])
             sound.play()
-
 
     def hit(self, damage: int):
         damage_value = damage
@@ -259,10 +255,10 @@ class FlightUnit(pygame.sprite.Sprite):
 
         if self.trace_fire_delay > 0:
             self.trace_fire_delay -= 1
-            
+
         if self.super_fire_delay > 0:
             self.super_fire_delay -= 1
-            
+
         if self.fire_interceptor_delay > 0:
             self.fire_interceptor_delay -= 1
 

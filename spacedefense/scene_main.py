@@ -3,13 +3,18 @@ import pygame
 
 from .my_master import MyMasterFighter
 from .config import configmap
-from .common import Scene, res_manager, get_assets, Colors
+from .common import (
+    Scene,
+    res_manager,
+    get_assets,
+    Colors,
+    DISPLAY_WIDTH,
+    DISPLAY_HEIGHT,
+)
 from .flight_unit import FlightUnit
 from .actors import (
     Background,
     Particle,
-    DISPLAY_WIDTH,
-    DISPLAY_HEIGHT,
     ProgressRect,
     ScaleBackground,
     ShockParticle,
@@ -204,7 +209,7 @@ class GameMainScene(Scene):
                 [self.ufo_super_bullets, self.ufo_bullets],
                 self.particles,
                 "level3",
-                trace_fire_delay=32
+                trace_fire_delay=32,
             )
 
     def create_hit_shock_particle(self, actor_obj, num):
@@ -797,7 +802,7 @@ class GameMainScene(Scene):
 
         pygame.draw.rect(screen, (0, 0, 0), (0, DISPLAY_HEIGHT - 70, DISPLAY_WIDTH, 70))
         self._proc_draw_texts(screen)
-        
+
         self.layout_units.draw(screen)
 
     def handle_events(self, events):

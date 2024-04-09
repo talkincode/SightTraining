@@ -3,9 +3,8 @@ import random
 import pygame
 
 from .actors import Bullet, SuperBullet, TraceBullet
-from .common import res_manager, Colors, get_display_size
+from .common import res_manager, Colors, DISPLAY_WIDTH, DISPLAY_HEIGHT
 
-DISPLAY_WIDTH, DISPLAY_HEIGHT = get_display_size()
 
 class MyMasterFighter(pygame.sprite.Sprite):
     """我方战机"""
@@ -103,8 +102,8 @@ class MyMasterFighter(pygame.sprite.Sprite):
                 total_bullets = _bullet_per_num + self.level - 1
             if total_bullets > 6:
                 total_bullets = 6
-            
-            bullet_spacing = 15 # 子弹之间的间距
+
+            bullet_spacing = 15  # 子弹之间的间距
 
             # 计算第一个子弹的偏移量
             offset = bullet_spacing * (total_bullets - 1) / 2
@@ -118,28 +117,35 @@ class MyMasterFighter(pygame.sprite.Sprite):
                         bullet_x,
                         bullet_y,
                         speed=self.config[level]["bullet_speed"],
-                        damage=damage + (self.level -1) / 20, # 升级后伤害递增
+                        damage=damage + (self.level - 1) / 20,  # 升级后伤害递增
                         direction="up",
                         color=Colors.get(self.config[level]["bullet_color"]),
                         radius=self.config[level]["bullet_radius"],
                     )
-                )           
+                )
             self.fire_delay = self.config[level]["fire_delay"]
             sound = res_manager.load_sound(self.config[level]["fire_sound"])
             sound.set_volume(self.config["fire_sound_volume"])
             sound.play()
 
-    def trace_fire(self, src_group, target_groups, particle_group, level, priority: str = "distance", trace_fire_delay: int = 0):
+    def trace_fire(
+        self,
+        src_group,
+        target_groups,
+        particle_group,
+        level,
+        priority: str = "distance",
+        trace_fire_delay: int = 0,
+    ):
         if self.trace_fire_delay == 0:
             _bullet_per_num = self.config[level]["bullet_per_num"]  # 想要发射的子弹总数
             total_bullets = _bullet_per_num  # 想要发射的子弹总数
             bullet_spacing = 25
             if self.level > 1:
                 total_bullets = self.level
-            
+
             if total_bullets > 2:
                 total_bullets = 2
-                
 
             # 计算第一个子弹的偏移量
             offset = bullet_spacing * (total_bullets - 1) / 2
@@ -154,7 +160,7 @@ class MyMasterFighter(pygame.sprite.Sprite):
                         bullet_x,
                         bullet_y,
                         speed=self.config[level]["bullet_speed"],
-                        damage=damage + (self.level -1) / 20, # 升级后伤害递增
+                        damage=damage + (self.level - 1) / 20,  # 升级后伤害递增
                         direction="up",
                         color=Colors.get(self.config[level]["bullet_color"]),
                         radius=self.config[level]["bullet_radius"],
@@ -164,7 +170,7 @@ class MyMasterFighter(pygame.sprite.Sprite):
                 self.trace_fire_delay = trace_fire_delay
             else:
                 self.trace_fire_delay = self.config[level]["fire_delay"]
-            
+
             sound = res_manager.load_sound(self.config[level]["fire_sound"])
             sound.set_volume(self.config["fire_sound_volume"])
             sound.play()
@@ -194,7 +200,7 @@ class MyMasterFighter(pygame.sprite.Sprite):
     def hit(self, damage: int):
         """被击中, 减少生命值"""
         # 升级后伤害递减
-        damage - (self.level -1) / 20
+        damage - (self.level - 1) / 20
 
         if self.shield_value > 0:
             self.shield_value -= damage
@@ -214,7 +220,6 @@ class MyMasterFighter(pygame.sprite.Sprite):
     def dodge_fighter(self, target: pygame.sprite.Sprite):
         pass
 
-
     def update(self):
         self.recharge_delay += 1
         if (
@@ -228,10 +233,10 @@ class MyMasterFighter(pygame.sprite.Sprite):
 
         if self.super_fire_delay > 0:
             self.super_fire_delay -= 1
-        
+
         if self.trace_fire_delay > 0:
             self.trace_fire_delay -= 1
-        
+
         if self.fire_interceptor_delay > 0:
             self.fire_interceptor_delay -= 1
 
@@ -241,12 +246,11 @@ class MyMasterFighter(pygame.sprite.Sprite):
                 self.last_update = now
                 self.image_index = (self.image_index + 1) % len(self.image_sequence)
                 self.image = self.image_sequence[self.image_index]
-        
+
         up_points = self.upgrade_cast * self.level
         if self.upgrade_points > up_points:
             self.upgrade_points -= up_points
             self.level += 1
-
 
     def auto_move(self):
         self.rect.x += self.speed_x  # 水平移动单位
