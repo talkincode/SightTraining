@@ -1,15 +1,15 @@
 #!/bin/bash
 
 test -d spacex001 && rm -rf spacex001
-mkdir -p spacex001/spacedefense/assets/images
-mkdir -p spacex001/spacedefense/assets/sounds
+mkdir -p spacex001/spacedefense_wasm/assets/images
+mkdir -p spacex001/spacedefense_wasm/assets/sounds
 
-cp -r spacedefense/* spacex001/spacedefense/
+cp -r spacedefense_wasm/* spacex001/spacedefense_wasm/
 
 rm -f spacex001/main.py
 cp wasm.py spacex001/main.py
 
-rm -fr spacex001/spacedefense/__pycache__
+rm -fr spacex001/spacedefense_wasm/__pycache__
 
 python -m pygbag --build spacex001
 

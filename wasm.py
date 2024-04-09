@@ -1,10 +1,7 @@
 import asyncio
 
 async def main():
-    from spacedefense.config import configmap
-    configmap["display_width"] = 1280
-    configmap["display_height"] = 720
-    configmap["background"]["vmove"]["image_sequence_group"] = []
+    from spacedefense_wasm.config import configmap
     # UFO 参数
     configmap["ufo_master"]["life_value"] = 50000  # 生命值
     configmap["ufo_master"]["shield_value"] = 2000  # 护盾
@@ -17,7 +14,7 @@ async def main():
     configmap["myf_master"]["upgrade_cast"] = 200  # 升级基础点数 1个升级点需要5点能量点
     configmap["myf_master"]["shield_recharge_step"] = 5  # 护盾充能间隔，越小越快
     configmap["myf_master"]["super_bullet"]["score_cast"] = 200  # 核弹消耗:
-    from spacedefense.wasm import AsyncSpaceDefense
+    from spacedefense_wasm.game import AsyncSpaceDefense
     await AsyncSpaceDefense().start_game()
 
 

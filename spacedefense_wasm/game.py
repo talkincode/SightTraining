@@ -2,8 +2,6 @@ import asyncio
 import pygame
 from .config import configmap
 from .scene_main import GameMainScene
-from .scenes import GameEndScene
-from .scenes import GamePreScene
 from .common import Scene, SceneManager, res_manager
 from .actors import (
     DISPLAY_WIDTH,
@@ -19,7 +17,7 @@ class WasmGameStartScene(Scene):
 
     def __init__(self, manager):
         super().__init__(manager)
-        self.font = pygame.font.Font(None, 36)
+        self.font = pygame.font.Font(None, 48)
         self.text_surface = self.font.render(
             "Press any key to start", True, (255, 255, 255)
         )
@@ -34,7 +32,7 @@ class WasmGameStartScene(Scene):
                 pygame.quit()
                 return True
             if event.type == pygame.KEYDOWN:
-                self.manager.switch_scene("GamePreScene")
+                self.manager.switch_scene("GameMainScene")
                 return
 
     def update(self):
@@ -79,12 +77,8 @@ class AsyncSpaceDefense(object):
         scene_manager = SceneManager()
         wasm_scene = WasmGameStartScene(scene_manager)
         main_scene = GameMainScene(scene_manager)
-        pre_scene = GamePreScene(scene_manager)
-        end_scene = GameEndScene(scene_manager)
         scene_manager.add_scene(wasm_scene)
         scene_manager.add_scene(main_scene)
-        scene_manager.add_scene(pre_scene)
-        scene_manager.add_scene(end_scene)
         scene_manager.switch_scene(WasmGameStartScene.__name__)
 
         running = True
