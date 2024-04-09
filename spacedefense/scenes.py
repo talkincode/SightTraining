@@ -6,6 +6,8 @@ from .config import configmap
 
 
 class GamePreScene(Scene):
+    
+    __name__ = "GamePreScene"
     def __init__(self, manager):
         super().__init__(manager)
 

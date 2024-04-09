@@ -6,7 +6,8 @@ mkdir -p spacex001/spacedefense/assets/sounds
 
 cp -r spacedefense/* spacex001/spacedefense/
 
-cp main.py spacex001/
+rm -f spacex001/main.py
+cp wasm.py spacex001/main.py
 
 rm -fr spacex001/spacedefense/__pycache__
 

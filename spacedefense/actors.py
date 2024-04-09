@@ -5,8 +5,6 @@ from typing import List
 import pygame
 import math
 from .common import res_manager, Colors, DISPLAY_WIDTH, DISPLAY_HEIGHT
-from .config import configmap
-import os
 
 
 class Background(pygame.sprite.Sprite):

@@ -15,7 +15,7 @@ configmap = {
     "background": {
         "vmove": {
             "image_sequence_group": ["images/vmove_cambg2", "images/vmove_cambg1"],
-            "images": ["images/vmove_cambg1/cambg_003.webp"],
+            "images": ["images/vmove_cambg2/cambg_003.webp"],
         },
         "scale": {
             "image": "images/scale_cambg1.webp",
@@ -179,3 +179,4 @@ configmap = {
         "firehit_sound_volume": 0.4,
     },
 }
+

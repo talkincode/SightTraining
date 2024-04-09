@@ -5,7 +5,6 @@ import pygame
 
 from .actors import Bullet, SuperBullet, TraceBullet, UfoSuperBullet
 from .common import res_manager, Colors, DISPLAY_WIDTH, DISPLAY_HEIGHT
-from .config import configmap
 
 
 class FlightUnit(pygame.sprite.Sprite):
@@ -324,12 +323,15 @@ class FlightUnit(pygame.sprite.Sprite):
 
     @classmethod
     def get_ufo_master(cls):
+        from .config import configmap
         return FlightUnit("ufo_master", configmap["ufo_master"])
 
     @classmethod
     def get_ufo_slave(cls):
+        from .config import configmap
         return FlightUnit("ufo_slave", configmap["ufo_slave"])
 
     @classmethod
     def get_my_slave_fighter(cls):
+        from .config import configmap
         return FlightUnit("myf_slave", configmap["myf_slave"])
