@@ -13,7 +13,9 @@ cp wasm.py spacex001/main.py
 rm -fr spacex001/spacedefense_wasm/__pycache__
 
 python -m pygbag --build spacex001
+python3 -m pygbag --archive spacex001/main.py
 
 cp spacex001/build/web/index.html web/index.html
 cp spacex001/build/web/spacex001.apk web/spacex001.apk
+cp spacex001/build/web.zip web/web.zip
 rm -fr spacex001

@@ -26,8 +26,8 @@ class FlightUnit(pygame.sprite.Sprite):
         self.rect.x = self.config["first_pos"][0]  # 初始化x坐标
         self.rect.y = self.config["first_pos"][1]
         self.frame_rate = 300  # 每帧间隔毫秒数
-        self.speed_x = random.randint(1, 6)  # 在x方向上设置随机速度
-        self.speed_y = random.randint(1, 4)  # 在y方向上设置随机速度
+        self.speed_x = random.randint(3, 9)  # 在x方向上设置随机速度
+        self.speed_y = random.randint(2, 4)  # 在y方向上设置随机速度
         # 被消灭的时间
         self.kill_time = None
         self.fire_delay = 0
@@ -263,16 +263,16 @@ class FlightUnit(pygame.sprite.Sprite):
             self.rect.y += self.speed_y  # 垂直移动单位
 
             if self.rect.left < 0:
-                self.speed_x = abs(random.randint(1, 6))  # 反转x方向的速度
+                self.speed_x = abs(random.randint(3, 9))  # 反转x方向的速度
 
             if self.rect.right > DISPLAY_WIDTH:
-                self.speed_x = -abs(random.randint(1, 6))  # 反转x方向的速度
+                self.speed_x = -abs(random.randint(3, 9))  # 反转x方向的速度
 
             if self.rect.top < 0:
                 self.speed_y = abs(random.randint(1, 4))  # 反转y方向的速度
 
             if self.rect.bottom > DISPLAY_HEIGHT // 2:
-                self.speed_y = -abs(random.randint(1, 4))  # 反转y方向的速度
+                self.speed_y = -abs(random.randint(2, 4))  # 反转y方向的速度
 
     def dodge_fighter(self, target: pygame.sprite.Sprite):
         """根据目标位置和自身速度进行闪避"""
