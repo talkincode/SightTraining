@@ -1,5 +1,6 @@
 #!/bin/bash
 
+test -d web || mkdir web
 test -d spacex001 && rm -rf spacex001
 mkdir -p spacex001/spacedefense_wasm/assets/images
 mkdir -p spacex001/spacedefense_wasm/assets/sounds
