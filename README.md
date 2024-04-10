@@ -13,7 +13,8 @@ SightTraining 将打造一个系列游戏， 这些游戏根据 CAM 光栅学的
 
 ### 在线体验版
 
-[https://spacex.talkincode.net/](https://spacex.talkincode.net/)
+- [https://spacex.talkincode.net/](https://spacex.talkincode.net/)
+- [https://spacex01.talkincode.net/](https://spacex01.talkincode.net/)
 
 > 注意为了优化在线体验， 在线版本舍弃了不少游戏资源，做了很多精简优化， 请使用最新谷歌浏览器硬件加速效果会更好。
 
