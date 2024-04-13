@@ -189,24 +189,34 @@ class MyMasterFighter(pygame.sprite.Sprite):
                 sound.play()
 
     def hit(self, damage: int):
-        """被击中, 减少生命值"""
-        # 升级后伤害递减
-        damage - (self.level - 1) / 20
-
+        """被击中，减少生命值"""
+        # 伤害递减计算，确保伤害不会低于0
+        damage = max(0, damage - (self.level - 1) / 20)
+        
         if self.shield_value > 0:
+            # 如果伤害大于护盾值，则扣除超出的部分
+            overshoot = damage - self.shield_value
             self.shield_value -= damage
-            if self.shield_value <= 0:
+            if self.shield_value < 0:
                 self.shield_value = 0
-                self.life_value += self.shield_value
+            
+            # 护盾用尽后，任何剩余的伤害应该扣除生命值
+            if overshoot > 0:
+                self.life_value -= overshoot
         else:
-            if self.life_value > 0:
-                self.life_value -= damage
-                if self.life_value <= 0:
-                    self.life_value = 0
+            # 没有护盾，直接扣除生命值
+            self.life_value -= damage
+        
+        # 如果生命值降到0或以下，玩家飞船毁灭
+        if self.life_value <= 0:
+            self.life_value = 0
+            # 这里可以添加飞船销毁的逻辑
 
+        # 播放被击中的声音
         sound = res_manager.load_sound(self.config["firehit_sound"])
         sound.set_volume(self.config["firehit_sound_volume"])
         sound.play()
+
 
     def dodge_fighter(self, target: pygame.sprite.Sprite):
         pass
